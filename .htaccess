@@ -1,0 +1,11 @@
+Options FollowSymLinks
+
+RewriteEngine on
+RewriteBase /backbone-test
+RewriteCond %{REQUEST_METHOD} !PUT
+RewriteRule ^/put\.php$ - [F]
+RewriteCond %{REQUEST_METHOD} PUT
+RewriteCond %{QUERY_STRING} ^$
+RewriteRule ^/put\.php$ - [F]
+RewriteCond %{REQUEST_METHOD} PUT
+RewriteRule ^(.*)$ put.php?url=$1 [L]

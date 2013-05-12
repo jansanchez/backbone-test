@@ -48,6 +48,7 @@ var UserCollection = Backbone.Collection.extend({
 UserListView = Backbone.View.extend({
   attach: function(){
     this.el = $("#user-list");
+    
     this.$("li").each(function(index){
       var userEl = $(this);
       var id = userEl.attr("data-id");

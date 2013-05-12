@@ -2,16 +2,34 @@
 <html>
   <head>
     <title>backbone</title>
+    <link type="text/css" href="styles/styles.css" rel="stylesheet">
   </head>
   <body>
     <div>
       <div id="results-template">
         <p>{{name}}</p>
       </div>
-    </div>
-    <div>
       <input id="send" type="button" value="enviar">
     </div>
+    <div id="tabla">
+      <div id="user-1" class="table-row">contenido 1</div>
+      <div id="user-2" class="table-row">contenido 2</div>
+      <div id="user-3" class="table-row">contenido 3</div>
+      <div id="user-4" class="table-row">contenido 4</div>
+      <div id="user-5" class="table-row">contenido 5</div>
+    </div>
+    <form id="foo">
+      <Name>
+        <input id="name">
+      </Name>
+      <button id="say" type="button">Say My Name!</button>
+    </form>
+    <ul id="user-list">
+      <li data-id="1">Bob</li>
+      <li data-id="2">Mary</li>
+      <li data-id="3">Frank</li>
+      <li data-id="4">Jane</li>
+    </ul>
     <script src="js/libs/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="js/libs/underscore-min.js" type="text/javascript"></script>
     <script src="js/libs/backbone-min.js" type="text/javascript"></script>

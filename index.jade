@@ -1,13 +1,29 @@
+- var array5 = [1,2,3,4,5]
 !!!5
 html
 	head
 		title backbone
+		link(type="text/css", href="styles/styles.css", rel="stylesheet")
 	body
 		div
 			div#results-template
 				p {{name}}
-		div
 			input(id="send", type="button", value="enviar")
+
+		div(id="tabla")
+			each row in array5
+				div(class="table-row", id="user-#{row}") contenido #{row}
+
+		form#foo
+			Name: input#name
+			button#say(type="button") Say My Name!
+		
+		ul#user-list
+			li(data-id="1") Bob
+			li(data-id="2") Mary
+			li(data-id="3") Frank
+			li(data-id="4") Jane
+		
 
 		
 		script(src="js/libs/jquery-1.9.1.min.js", type="text/javascript")

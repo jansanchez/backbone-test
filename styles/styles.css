@@ -1,13 +1,71 @@
-#tabla {
-  background: #666;
-  margin: 10px;
-  padding: 5px;
-}
-#tabla .table-row {
-  background: #eee;
-  border-color: #999;
+h2 {
   border-style: solid;
   border-width: 0 0 1px 0;
-  color: #333;
+  border-color: #ccc;
+  color: #000;
+  font-size: 20px;
+  font-family: 'trebuchet ms';
+}
+.white-box {
+  background: #fff;
   padding: 10px;
 }
+.dragger {
+  background: #f2f3f5;
+  cursor: pointer;
+  border: 1px dashed #e0e0e0;
+  border-radius: 3px;
+  padding: 20px 10px 20px 10px;
+  margin: 0 0 15px;
+  text-align: center;
+  float: left;
+  width: 98%;
+}
+.dragger .note {
+  font-size: 1.75em;
+  color: #666;
+  font-family: 'lucida sans unicode';
+  min-height: 130px;
+  line-height: 130px;
+  width: 100%;
+  float: left;
+}
+.dragger .note small {
+  color: #aaa;
+  font-size: 0.4em;
+}
+.thumb {
+  background: #fcfcfc;
+  cursor: pointer;
+  border: 1px dashed #ddd;
+  border-radius: 3px;
+  height: 90px;
+  width: 160px;
+  margin: 20px 20px 0 0;
+  float: left;
+  position: relative;
+}
+.thumb .remove {
+  background: url("../img/remove.png") no-repeat scroll 0 0 transparent;
+  display: block;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: -7px;
+  top: -7px;
+}
+.options {
+  clear: both;
+}
+/*#tabla
+	background #666
+	margin 10px
+	padding 5px
+	.table-row 
+		background #EEEEEE
+		border-color #999
+		border-style solid
+		border-width 0 0 1px 0
+		color #333
+		padding 10px
+*/

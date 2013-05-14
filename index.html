@@ -34,8 +34,12 @@
       </div>
       <div class="options">
         <input type="text" id="file" name="file" placeholder="No ha elegido ningún archivo">
-        <button type="button">Elige tu imagen</button>
+        <button type="button" id="btnChoose">Elige tu imagen</button>
       </div>
+      <form name="demoFiler" id="demoFiler" enctype="multipart/form-data">
+        <input type="file" name="multiUpload" id="multiUpload" multiple="multiple">
+        <input type="submit" name="submitHandler" id="submitHandler" value="Upload">
+      </form>
     </div>
     <script src="js/libs/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="js/libs/underscore-min.js" type="text/javascript"></script>

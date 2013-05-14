@@ -1,182 +1,74 @@
 
-/********************************************/
-
-
-var MyModel = Backbone.Model.extend({name:'uno', name:'dos', name:'tres', name:'cuatro', name:'cinco'});
-
-var FooView = Backbone.View.extend({
-	events: {
-		"change #name": "setName",
-		"click #say": "sayName"
-	},
-
-	setName: function(e){
-		var name = $(e.currentTarget).val();
-		this.model.set({name: name});
-	},
-
-	sayName: function(e){
-		e.preventDefault();
-		var name = this.model.get("name");
-		alert("Hello " + name);
-	},
-
-	render: function(){
-		// do some rendering here, for when this is just running JavaScript
-
-	}
-	});
-
-	$(function(){
-		var model = new MyModel();
-		var view = new FooView({
-		model: model,
-		el: $("#foo")
-	});
-});
-
-
-/********************************************/
-
-
-
-var UserCollection = Backbone.Collection.extend({
-  model: MyModel
-});
-
-
-UserListView = Backbone.View.extend({
-  attach: function(){
-    this.el = $("#user-list");
-    
-    this.$("li").each(function(index){
-      var userEl = $(this);
-      var id = userEl.attr("data-id");
-      console.log(id);
-      var user = this.collection.get(id);
-      new UserView({
-        model: user,
-        el: userEl
-      });
-    });
-  }
-});
-
-UserView = Backbone.View.extend({
-  initialize: function(){
-    this.model.bind("change:name", this.updateName, this);
-  },
-
-  updateName: function(model, val){
-    this.el.text(val);
-  }
-});
-
-var userData = {name:'uno', name:'dos', name:'tres', name:'cuatro', name:'cinco'};
-var userList = new UserCollection(userData);
-var userListView = new UserListView({collection: userList});
-userListView.attach();
-
-
-
-var Usuario = Backbone.Model.extend({
+var Imagen = Backbone.Model.extend({
 	defaults : {
-		id: 0,
-		nombre: 'ninguno'
-	},
-	initilize : function(){
-		this.on('change:nombre', function(){ 
-			console.log('se cambio el Nombre a: '+ this.get('nombre'));
-		});
-	}
-});
-
-
-var usuarioView = Backbone.View.extend({
-	el : '#tabla',
-	Usuario: null,
-	events: {
-		"click .table-row": "userClick"
-	},
-	userClick : function(e){
-		
-		this.Usuario.set('nombre','cambio de nombre');
-		$(e.currentTarget).fadeOut();
-	},
-	initialize: function() {
-		_.bindAll(this);
-		this.Usuario = new this.options.Usuario; // trae la variable que le hayamos pasado osea los modelos
-		this.Usuario.on('change', this.cambiarVista);
-
-	},
-	cambiarVista : function(){
-
-		console.log('cambiar vista => '+ this.Usuario.get('nombre'));
-
-	},
-	render: function( event ){
-
-		//var compiled_template = _.template( $("#results-template").html() );
-		//this.$el.html(); 
-		return this;
-
-	}
-});
-
-
-
-
-
-var uView = new usuarioView({
-	el : 'body',
-	Usuario : Usuario
-});
-
-
-/*
-var Photo = Backbone.Model.extend({
-	defaults : {
-		name:'Nombre por defecto'
+		src : 'none.jpg',
+		title : 'none',
+		main : 0
 	},
 	initialize : function(){
-		this.on('change:name', function(){ 
-			console.log('se cambio el Nombre a: '+ this.get('name'));
+		this.on('change:title', function(){
+			console.log('se cambio el title a: '+this.get('title'));
 		});
-
+		this.on('change:src', function(){
+			console.log('se cambio el src a: '+this.get('src'));
+		});
+		this.on('change:main', function(){
+			console.log('se cambio el main a: '+this.get('main'));
+		});
 	},
-	setName : function(newName){
-		this.set({name:newName});
+	setSrc : function(src){
+		this.set({'src':src});
+	},
+	setTitle : function(title){
+		this.set({'title':title});
+	},
+	setMain : function(main){
+		this.set({'main':main});
 	}
 });
 
 
 
-
-var PhotoSearch = Backbone.View.extend({ 
-	tagName: 'div',
-	className: 'default',
-	el: '#results',
-	render: function( event ){
-
-		var compiled_template = _.template( $("#results-template").html() );
-		this.$el.html( compiled_template(this.model.toJSON()) ); return this;
-
-	},
-	events: {
-	"click #send": "clickeo"
-	},
-	clickeo : function(e){
-		console.log('click!');
-	},
-	initialize: function() {
-			
-		this.model = new Photo();			
-		this.model.on('change', this.render);
- 
-		this.render();
-	},
+var ImagenCollection = Backbone.Collection.extend({
+	model : Imagen
 });
 
 
-var ps = new PhotoSearch();
-*/
+
+
+var ImagenView = Backbone.View.extend({
+	el : $('#divGallery'),
+	imagenCollection: null,
+	contador : 0,
+	events: {
+		"click #btnChoose" : "chooseImage"
+	},
+	initialize: function() {
+		
+		this.imagenCollection = new this.options.ImageCol;
+
+
+	},
+	chooseImage: function(){
+
+		this.contador++;
+		//console.log(this.contador);
+
+		this.imagenCollection.add([{src: this.contador+'.jpg', title: this.contador}]);
+
+		var currentModel = this.imagenCollection.at(this.imagenCollection.length-1);
+	
+		this.$('.dragger').append('<div class="thumb"><a href="javascript:;" title="'+currentModel.get('title')+'" class="remove"></a>'+currentModel.get('src')+'</div>');
+
+		
+
+	}
+});
+
+//var icol = new ImagenCollection();
+
+var galleryImages = new ImagenView({
+	ImageCol : ImagenCollection
+});
+
+

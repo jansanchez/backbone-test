@@ -57,6 +57,9 @@ h2 {
 .options {
   clear: both;
 }
+#demoFiler {
+  display: none;
+}
 /*#tabla
 	background #666
 	margin 10px

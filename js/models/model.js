@@ -52,7 +52,6 @@ var ImagenView = Backbone.View.extend({
 	chooseImage: function(){
 
 		this.contador++;
-		//console.log(this.contador);
 
 		this.imagenCollection.add([{src: this.contador+'.jpg', title: this.contador}]);
 

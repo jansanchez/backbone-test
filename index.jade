@@ -9,45 +9,23 @@ html
 		title backbone
 		link(type="text/css", href="styles/styles.css", rel="stylesheet")
 	body
-
-		//div
-			div#results-template
-				p sdfsdf sdf 
-			input(id="send", type="button", value="enviar")
-
-		//div(id="tabla")
-			each row in array9
-				div(class="table-row", id="user-#{row}") contenido #{row}
-
-		//form#foo
-			Name: input#name
-			button#say(type="button") Say My Name!
-		
-		//ul#user-list
-			li(data-id="1") Bob
-			li(data-id="2") Mary
-			li(data-id="3") Frank
-			li(data-id="4") Jane
-
-		
+	
 		h2 Fotos
 		div.white-box#divGallery
 			div.dragger
 				span.note Suelta tus imágenes aquí 
 					small Máximo 2 MB por imágen.
-				//each row in array1
-					.thumb
-						a.remove(href="javascript:;", title="eliminar") 
-
 
 			div.options
 				input(type="text", id="file", name="file", placeholder="No ha elegido ningún archivo")
 				button(type="button", id="btnChoose") Elige tu imagen
 
 			form(name="demoFiler", id="demoFiler", enctype="multipart/form-data")
-				input(type="file", name="multiUpload", id="multiUpload", multiple="multiple")
-				input(type="submit", name="submitHandler", id="submitHandler", value="Upload")
-		
+				fielset
+					input(type="file", name="multiUpload", id="multiUpload", multiple="multiple")
+					input(type="submit", name="submitHandler", id="submitHandler", value="Upload")
+
+
 		script(src="js/libs/jquery-1.9.1.min.js", type="text/javascript")
 		script(src="js/libs/underscore-min.js", type="text/javascript")
 		script(src="js/libs/backbone-min.js", type="text/javascript")

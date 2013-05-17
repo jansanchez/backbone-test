@@ -56,9 +56,11 @@ var ImagenView = Backbone.View.extend({
 	},
     deleteImage: function(e){
 
-        
-        var element= $(e.currentTarget).parent();
-        element.fadeOut();
+        var element = $(e.currentTarget).parent();
+        element.fadeOut('normal', function(){
+            $(this).remove();
+        });
+
         this.Imagenes.remove(this.Imagenes.get(element.attr('data-id')));
 
         console.log(this.Imagenes);

@@ -1,10 +1,13 @@
 
+_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
+
 var Imagen = Backbone.Model.extend({
 	defaults : {
 		src : 'none.jpg',
 		title : 'none',
 		main : 0
 	},
+	view : null,
 	initialize : function(){
 		this.on('change:title', function(){
 			console.log('se cambio el title a: '+this.get('title'));
@@ -34,42 +37,60 @@ var Imagenes = Backbone.Collection.extend({
 	model : Imagen
 });
 
+var imgs = new Imagenes();
+
 var ImagenView = Backbone.View.extend({
 	el : $('#divGallery'),
-	Imagenes: Imagenes,
 	contador : 0,
 	events: {
-		"click #btnChoose" : "chooseImage",
+		"click #btnChoose" : "addImg"
+	},
+	initialize: function() {
+		_.bindAll(this);
+		this.model.on("add", this.addOne);
+		this.model.on("remove", this.removeOne);
+	},
+	render : function(){
+		/*
+		var template = $.trim($('.thumb').html());
+		this.$el.append(template);
+		*/
+		return this;
+	},
+	addImg: function(){
+		this.contador++;
+		imgs.add({src: this.contador+'.jpg', title: this.contador});
+	},
+	addOne : function(modelo){
+		modelo.view = new iView({model : modelo});
+		this.$('.dragger').append(modelo.view.render().el);
+	},
+	removeOne : function(modelo){
+		modelo.view.remove();
+		modelo.clear();
+	}
+});
+
+var mainView = new ImagenView({
+	model : imgs
+});
+
+var iView = Backbone.View.extend({
+	className : 'thumb',
+	template : null,
+	events: {
         "click .remove" : "deleteImage"
 	},
 	initialize: function() {
-		this.Imagenes = new this.Imagenes;
+		_.bindAll(this);
+		this.template = $.trim($('.tpl .thumb').html());
 	},
-	chooseImage: function(){
-
-		this.contador++;
-		this.Imagenes.add({src: this.contador+'.jpg', title: this.contador});
-		var currentModel = this.Imagenes.at(this.Imagenes.length-1);	    
-		this.$('.dragger').append('<div class="thumb" data-id="'+currentModel.cid+'"><a href="javascript:;" title="'+currentModel.get('title')+'" class="remove"></a>'+currentModel.get('src')+'</div>');
-
-        console.log(this.Imagenes);
+	render : function(){
+		var compiled_template = _.template( this.template );
+		this.$el.html( compiled_template(this.model.toJSON()));
+		return this;
 	},
-    deleteImage: function(e){
-
-        var element = $(e.currentTarget).parent();
-        element.fadeOut('normal', function(){
-            $(this).remove();
-        });
-
-        this.Imagenes.remove(this.Imagenes.get(element.attr('data-id')));
-
-        console.log(this.Imagenes);
+    deleteImage: function(){
+		this.model.collection.remove(this.model);
     }
 });
-
-//var icol = new ImagenCollection();
-
-var galleryImages = new ImagenView({
-});
-
-

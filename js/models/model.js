@@ -1,32 +1,25 @@
 
-/*cambio el template settings de underscore para usar {{dato}} en mis plantillas*/
+/*Cambio el templateSettings de underscore para usar {{atributoModelo}} en mis plantillas*/
 _.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
 
 /*Creamos un modelo*/
-var Imagen = Backbone.Model.extend({
+var Image = Backbone.Model.extend({
 	/*defino sus valores por defecto*/
 	defaults : {
 		src : 'none.jpg',
 		title : 'none',
 		main : 0
 	},
-	/*defino el objeto vacio "view" para almacenar mi vista para este modelo*/
-	view : null,
-	/*pseudo constructor del modelo, se ejecuta cuando un modelo es instanciado*/
+	/*Pseudo constructor del modelo, se ejecuta cuando un modelo es instanciado*/
 	initialize : function(){
-		/*bindeamos un evento cuando es cambiado el atributo 'title' de nuestro modelo*/
+		/*Bindeamos un evento cuando es cambiado el atributo 'title' de nuestro modelo*/
 		this.on('change:title', function(){
 			console.log('se cambio el title a: '+this.get('title'));
 		});
-		/*bindeamos un evento global para cualquier cambio en el modelo, sea del atributo que sea*/
-        this.on('change',function(model){
-        	/*para cualquier cambio en un modelo, renderizamos la vista asociada a este*/
-        	this.view.render();
-        });
 	},
-	/*agregamos al modelo funciones de manipulacion de sus atributos*/
+	/*Agregamos al modelo funciones de manipulacion de sus atributos*/
 	setSrc : function(src){
-		/*seteamos el atributo src desde un argumento src*/
+		/*Seteamos el atributo src desde un argumento src*/
 		this.set({'src' : src});
 	},
 	setTitle : function(title){
@@ -37,96 +30,91 @@ var Imagen = Backbone.Model.extend({
 	}
 });
 
-/*Creamos una coleccionde imagenes*/
-var Imagenes = Backbone.Collection.extend({
-	/*establecemos como modelo de la coleccion al modelo: Imagen*/
-	model : Imagen
+/*Creamos una colección de imagenes*/
+var Images = Backbone.Collection.extend({
+	/*Establecemos como modelo de la colección al modelo: Image*/
+	model : Image
 });
 
-/*Creamos la vista principal que contendra nuestras vistas hijas*/
+/*Asignamos a la variable "imagesCollection" una instancia de nuestra Colección*/
+var imagesCollection = new Images();
+
+/*Creamos la vista principal que contendrá nuestras vistas hijas*/
 var GalleryView = Backbone.View.extend({
-	/*declaro el elemento principal de la vista*/
+	/*Declaro el elemento principal de la vista*/
 	el : $('#divGallery'),
 	contador : 0,
-	/*defino el objeto vacio "collection" para almacenar la instancia de la coleccion dentro de la vista principal*/
-	collection: null,
-	/*defino los eventos para la vista principal*/
+	/*Defino la lista de eventos para nuestra vista principal*/
 	events: {
-		/*defino el evento "click" en el elemento "#btnChoose" al ser disparado ejecutara la funcion "addImg" */
+		/*Defino el evento "click" en el elemento "#btnChoose" al ser disparado ejecutara la funcion "addImg" */
 		"click #btnChoose" : "addImg"
 	},
 	initialize: function() {
 		/*_.bindAll(this) hace que las funciones apunten siempre al "this" del objeto principal*/
 		_.bindAll(this);
-		/*escuchamos cuando suceda un "add" en la coleccion y lanzamos la funcion addOne*/
-		this.collection.on("add", this.addOne);
-		/*escuchamos cuando suceda un "remove" en la coleccion y lanzamos la funcion removeOne*/
-		this.collection.on("remove", this.removeOne);
+		/*Desde la vista escuchamos cuando suceda el evento "add" en la colección y lanzamos la función addOne*/
+		this.listenTo(imagesCollection, 'add', this.addOne);
+		/*Desde la vista escuchamos cuando suceda el evento "remove" en la colección y lanzamos la función removeOne*/
+		this.listenTo(imagesCollection, 'remove', this.removeOne);
 	},
-	/*funcion "render" de la vista*/
+	/*Función "render" de la vista*/
 	render : function(){
-		/*aqui renderizo la vista principal, la cargo con datos si deseo, en esta ocacion no la uso*/
+		/*Aqui renderizo la vista principal, la cargo con datos si deseo, en esta ocasión no la usamos*/
 	},
-	/*funcion de la vista principal para agregar un modelo a la coleccion*/
+	/*Función de la vista principal para agregar un modelo a la colección*/
 	addImg: function(){
 		this.contador++;
-		/*agregamos un modelo de datos nuevo a la coleccion*/
-		this.collection.add({src: this.contador+'.jpg', title: this.contador});
+		/*Agregamos un modelo de datos nuevo a la colección*/
+		imagesCollection.add({src: this.contador+'.jpg', title: this.contador});
 	},
-	/*cuando hubo un "add" en la coleccion ejecutamos esta funcion y recibimos como parametro el modelo afectado*/
+	/*Cuando hubo un "add" en la colección ejecutamos esta función y recibimos como parametro el modelo afectado*/
 	addOne : function(modelo){
-		/*asignamos al modelo recientemente creado la instancia de su vista asociada
-		y dentro de esta instancia le pasamos su modelo asociado, de esta forma conectamos la vista con el modelo
-		y el modelo con la vista respectiva*/
-		modelo.view = new galleryRow({model : modelo});
-		/*realizamos un append de la nueva vista desde el elemento que devuelve la funcion render
-		 a nuestro contenedor para las imagenes */
-		this.$('.dragger').append(modelo.view.render().el);
+		/*Creamos una instancia de una vista hija y le pasamos su modelo recientemente creado*/
+		var view = new galleryRow({model : modelo});
+		/*Appeneamos dentro de $('.dragger') el nuevo elemento que nos devuelve la función render de la vista hija*/
+		//console.profile('selector');
+		this.$('.dragger').append( view.render().el );
+		//console.profileEnd('selector');
 	},
-	/*cuando hubo un "remove" en la coleccion ejecutamos esta funcion y recibimos como parametro el modelo afectado*/
+	/*Cuando hubo un "remove" en la colección ejecutamos esta función y recibimos como parametro el modelo afectado*/
 	removeOne : function(modelo){
-		/*le quitamos los bindeos al modelo que eliminaremos*/
-		modelo.off();
-		/*remuevo la vista asociada al modelo*/
-		modelo.view.remove();
-		/*limpio el modelo*/
-		modelo.clear();
+		//Destruimos el modelo
+		//console.profile('destr');
+        modelo.destroy();
+        //console.profileEnd('destr');
 	}
 });
 
-/*creamos una instancia de nuestra galeria*/
-var mainView = new GalleryView({
-	/*le pasamos en la variable "collection" una nueva instancia de nuestra coleccion "Imagenes"*/
-	collection : (function(){
-		return new Imagenes();
-	})()
-});
-
-/*Creamos la vista hija galleryRow para cada imagen individual*/
+/*Creamos la vista hija "galleryRow" para cada imagen independiente*/
 var galleryRow = Backbone.View.extend({
 	className : 'thumb',
-	template : null,
+	model : null,
 	events: {
         "click .remove" : "deleteImage",
         "click .main" : "changeMain"
 	},
+	template : null,
 	initialize: function(){
 		_.bindAll(this);
-		/*al iniciar nuestra vista almacenamos la plantilla a la variable "template"*/
+		/*Al iniciar nuestra vista asignamos la plantilla en la variable "template"*/
 		this.template = $.trim($('.tpl .thumb').html());
+		/*Nos podemos a escuchar desde la vista hija actual cuando ocurra un evento "change" en el modelo y lanzamos la función "render" de la vista hija actual*/
+		this.listenTo(this.model, 'change', this.render);
+		/*Nos podemos a escuchar desde la vista hija actual cuando ocurra un evento "destroy" en el modelo y lanzamos la función "remove" de la vista hija actual*/
+		this.listenTo(this.model, 'destroy', this.remove);
 	},
 	render : function(){
 		var compiled_template = _.template(this.template);
-		/*traemos los datos del modelo(this.model.toJSON()) a su vista(this.$el) correspondiente*/
+		/*Traemos los datos del modelo(this.model.toJSON()) a su vista(this.$el) correspondiente*/
 		this.$el.html(compiled_template(this.model.toJSON()));
-		/*por best practice retornamos this*/
+		/*Retornamos this para poder usar el elemento generado*/
 		return this;
 	},
     deleteImage: function(){
-    	/*removemos el modelo seleccionado desde su coleccion correspondiente*/
-    	this.model.collection.remove(this.model);
+    	/*Removemos el modelo seleccionado desde su colección correspondiente*/
+    	imagesCollection.remove(this.model);
     },
-    /*funcion que cambia el contenido de un modelo desde la vista, para demostrar 
+    /*Función que cambia el contenido de un modelo desde la vista, para demostrar 
     que al cambiar un atributo de un modelo podemos renderizar la vista del modelo correspondiente*/
     changeMain: function(){
     	if (this.model.get('main')==1) {
@@ -135,4 +123,9 @@ var galleryRow = Backbone.View.extend({
     		this.model.setMain(1);
     	}
     }
+});
+
+$(function() {
+	/*Creamos una instancia de nuestra galería principal*/
+	new GalleryView({});
 });

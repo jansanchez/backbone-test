@@ -16,6 +16,7 @@ var Ins = {
 	V:{}
 }
 
+
 /*Creamos un modelo*/
 App.M.Image = Backbone.Model.extend({
 	/*defino sus valores por defecto*/
@@ -143,3 +144,24 @@ $(function() {
 	/*Creamos una instancia de nuestra galería principal*/
 	new App.MV.GalleryView({});
 });
+
+
+var u = Backbone;
+
+var abc = u.Model.extend({
+	defaults : {
+		uno : 1,
+		dos : 2
+	},
+	initialize : function(){
+		this.on('change:uno', function(){
+			console.log('se cambio el valor uno a: '+this.get('uno'));
+		});
+	},
+	setUno : function(uno){
+		this.set({'uno' : uno});
+	}
+});
+
+var def = new abc();
+def.setUno('nuevo valor');

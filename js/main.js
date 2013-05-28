@@ -33,3 +33,13 @@ window.Ins = window.Ins || {};
 
 Ins.Models = Ins.Models || {},
 Ins.Models.Collections = Ins.Models.Collections || {};
+
+
+
+require.config( {
+	paths: {
+		text: 'js/libs/require/text'
+	},
+	baseUrl: 'http://backbone.pe/'
+	}
+);

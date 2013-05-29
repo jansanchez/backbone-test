@@ -1,6 +1,5 @@
 
-/*Cambio el templateSettings de underscore para usar {{atributoModelo}} en mis plantillas*/
-_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
+
 
 /*Urb Object*/
 window.Urb = window.Urb || {};
@@ -30,7 +29,6 @@ Urb.Models.Collections = Urb.Models.Collections || {};
 /*Urb.router*/
 Urb.router = {};
 
-
 /*Urb Object*/
 window.Ins = window.Ins || {};
 
@@ -38,11 +36,45 @@ Ins.Models = Ins.Models || {},
 Ins.Models.Collections = Ins.Models.Collections || {};
 
 
-
-require.config( {
-	paths: {
-		text: 'js/libs/require/text'
-	},
-	baseUrl: 'http://backbone.pe/'
+require.config({
+    baseUrl: 'js',
+    paths: {
+        jquery: 'libs/jquery/jquery-1.9.1.min',
+		underscore: 'libs/underscore/underscore',
+		backbone: 'libs/backbone/backbone',
+		text: 'libs/require/text'
+    },
+	shim: {
+		underscore: {
+		  exports: '_'
+		},
+		backbone: {
+		  deps: ["underscore", "jquery"],
+		  exports: "Backbone"
+		}
 	}
-);
+});
+
+
+//the "main" function to bootstrap your code
+require(['jquery', 'underscore', 'backbone', 'text'], function ($, _, Backbone, text) {
+// or, you could use these deps in a separate module using define
+	
+	_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
+
+	require(['jquery', 'underscore', 'backbone', 'text', 'js/models/collections/Images.js','js/views/modules/GalleryView.js'], 
+		function ($, _, Backbone, text, Images, GalleryView) {			
+
+			/*Asignamos a la variable "imagesCollection" una instancia de nuestra Colección*/
+			Ins.Models.Collections.imagesCollection = new Images();
+
+			/*Creamos una instancia de nuestra galería principal*/
+			new GalleryView({});
+
+	});
+
+
+	
+
+
+});

@@ -13,7 +13,9 @@ Urb.Views.Pages = Urb.Views.Pages || {},
 Urb.Views.Lightboxes = Urb.Views.Lightboxes || {},
 Urb.Views.Tooltips = Urb.Views.Tooltips || {},
 Urb.Views.Notifications = Urb.Views.Notifications || {},
-Urb.Views.templateCache = Urb.Views.templateCache || {};
+Urb.Views.Tpl = Urb.Views.Tpl || {};
+Urb.Views.Tpl.Modules = Urb.Views.Tpl.Modules || {};
+Urb.Views.Tpl.Modules.Childrens = Urb.Views.Tpl.Modules.Childrens || {};
 
 /*Urb.Services*/
 Urb.Services = Urb.Services || {},
@@ -27,6 +29,7 @@ Urb.Models.Collections = Urb.Models.Collections || {};
 
 /*Urb.router*/
 Urb.router = {};
+
 
 /*Urb Object*/
 window.Ins = window.Ins || {};

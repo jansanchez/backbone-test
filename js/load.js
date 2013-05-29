@@ -7,3 +7,4 @@ $(function() {
 	/*Creamos una instancia de nuestra galería principal*/
 	new Urb.Views.Modules.GalleryView({});
 });
+

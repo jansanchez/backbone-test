@@ -1,6 +1,4 @@
 
-
-
 /*Urb Object*/
 window.Urb = window.Urb || {};
 
@@ -35,7 +33,7 @@ window.Ins = window.Ins || {};
 Ins.Models = Ins.Models || {},
 Ins.Models.Collections = Ins.Models.Collections || {};
 
-
+/*Require Config*/
 require.config({
     baseUrl: 'js',
     paths: {
@@ -55,7 +53,6 @@ require.config({
 	}
 });
 
-
 //the "main" function to bootstrap your code
 require(['jquery', 'underscore', 'backbone', 'text'], function ($, _, Backbone, text) {
 // or, you could use these deps in a separate module using define
@@ -63,7 +60,7 @@ require(['jquery', 'underscore', 'backbone', 'text'], function ($, _, Backbone, 
 	_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
 
 	require(['jquery', 'underscore', 'backbone', 'text', 'js/models/collections/Images.js','js/views/modules/GalleryView.js'], 
-		function ($, _, Backbone, text, Images, GalleryView) {			
+		function ($, _, Backbone, text, Images, GalleryView) {
 
 			/*Asignamos a la variable "imagesCollection" una instancia de nuestra Colección*/
 			Ins.Models.Collections.imagesCollection = new Images();
@@ -73,8 +70,6 @@ require(['jquery', 'underscore', 'backbone', 'text'], function ($, _, Backbone, 
 
 	});
 
-
-	
 
 
 });

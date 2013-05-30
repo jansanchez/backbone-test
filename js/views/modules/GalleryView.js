@@ -3,7 +3,7 @@ define(['backbone', 'underscore', 'views/modules/childrens/GalleryRow'],
 	function(Backbone, _, galleryRow) {
 
 	/*Creamos la vista principal que contendrá nuestras vistas hijas*/
-	Urb.Views.Modules.GalleryView = Backbone.View.extend({
+	var GalleryView = Backbone.View.extend({
 		/*Declaro el elemento principal de la vista*/
 		el : $('#divGallery'),
 		contador : 0,
@@ -34,7 +34,7 @@ define(['backbone', 'underscore', 'views/modules/childrens/GalleryRow'],
 		/*Cuando hubo un "add" en la colección ejecutamos esta función y recibimos como parametro el modelo afectado*/
 		addOne : function(modelo){
 			/*Creamos una instancia de una vista hija y le pasamos su modelo recientemente creado*/
-			var view = new Urb.Views.Modules.Childrens.galleryRow({model : modelo});
+			var view = new galleryRow({model : modelo});
 
 			/*Appeneamos dentro de $('.dragger') el nuevo elemento que nos devuelve la función render de la vista hija*/
 			//console.profile('selector');
@@ -50,6 +50,6 @@ define(['backbone', 'underscore', 'views/modules/childrens/GalleryRow'],
 		}
 	});
 
-	return Urb.Views.Modules.GalleryView;
+	return GalleryView;
 
 });

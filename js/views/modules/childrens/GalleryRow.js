@@ -1,13 +1,9 @@
-
-
 /*Trayendo la plantilla*/
 define(['backbone', 'underscore', 'text!templates/includes/thumbView.html'], 
 	function(Backbone, _, thumbView) {
 
-		
-
 		/*Creamos la vista hija "galleryRow" para cada imagen independiente*/
-		Urb.Views.Modules.Childrens.galleryRow = Backbone.View.extend({
+		var galleryRow = Backbone.View.extend({
 			className : 'thumb',
 			model : null,
 			events: {
@@ -18,9 +14,7 @@ define(['backbone', 'underscore', 'text!templates/includes/thumbView.html'],
 			initialize: function(){
 				_.bindAll(this);
 
-				Urb.Views.Tpl.Modules.Childrens.galleryRow = thumbView;
-
-				this.template = $.trim(Urb.Views.Tpl.Modules.Childrens.galleryRow);
+				this.template = this.template || $.trim(thumbView);
 
 				/*Al iniciar nuestra vista asignamos la plantilla en la variable "template"*/
 				//this.template = $.trim($('.tpl .thumb').html());
@@ -51,7 +45,7 @@ define(['backbone', 'underscore', 'text!templates/includes/thumbView.html'],
 		    }
 		});
 
-		return Urb.Views.Modules.Childrens.galleryRow;
+		return galleryRow;
 
 	}
 );

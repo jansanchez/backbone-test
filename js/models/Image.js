@@ -1,7 +1,6 @@
 define(['backbone'], function(Backbone) {
-
 	/*Creamos un modelo*/
-	Urb.Models.Image = Backbone.Model.extend({
+	var Image = Backbone.Model.extend({
 		/*defino sus valores por defecto*/
 		defaults : {
 			main : 0,
@@ -27,7 +26,5 @@ define(['backbone'], function(Backbone) {
 			this.set({'main' : main});
 		}
 	});
-
-	return Urb.Models.Image;
-
+	return Image;
 });

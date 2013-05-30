@@ -14,7 +14,7 @@ define(['backbone', 'underscore', 'text!templates/includes/thumbView.html'],
 			template : null,
 			initialize: function(){
 				_.bindAll(this);
-				
+
 				/*Al iniciar nuestra vista asignamos la plantilla en la variable "template"*/
 				this.template = this.template || $.trim(thumbView);
 

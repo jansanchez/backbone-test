@@ -61,14 +61,12 @@ require(['jquery', 'underscore', 'backbone', 'text'], function ($, _, Backbone, 
 	
 	_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
 
-	require(['jquery', 'underscore', 'backbone', 'text','js/views/modules/GalleryView.js'], 
-		function ($, _, Backbone, text, GalleryView) {
-			
+
+	require(['js/views/modules/GalleryView.js'],
+		function (GalleryView){
 			/*Creamos una instancia de nuestra galería principal*/
 			new GalleryView({});
-
-	});
-	
+	});	
 
 
 });

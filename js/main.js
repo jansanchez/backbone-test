@@ -1,4 +1,6 @@
 
+
+
 /*Urb Object*/
 window.Urb = window.Urb || {};
 
@@ -59,17 +61,14 @@ require(['jquery', 'underscore', 'backbone', 'text'], function ($, _, Backbone, 
 	
 	_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
 
-	require(['jquery', 'underscore', 'backbone', 'text', 'js/models/collections/Images.js','js/views/modules/GalleryView.js'], 
-		function ($, _, Backbone, text, Images, GalleryView) {
-
-			/*Asignamos a la variable "imagesCollection" una instancia de nuestra Colección*/
-			Ins.Models.Collections.imagesCollection = new Images();
-
+	require(['jquery', 'underscore', 'backbone', 'text','js/views/modules/GalleryView.js'], 
+		function ($, _, Backbone, text, GalleryView) {
+			
 			/*Creamos una instancia de nuestra galería principal*/
 			new GalleryView({});
 
 	});
-
+	
 
 
 });

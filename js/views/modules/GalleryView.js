@@ -1,6 +1,6 @@
 
-define(['backbone', 'underscore', 'views/modules/childrens/GalleryRow'], 
-	function(Backbone, _, galleryRow) {
+define(['backbone', 'underscore', 'js/models/collections/Images.js', 'views/modules/childrens/GalleryRow'], 
+	function(Backbone, _, Images, galleryRow) {
 
 	/*Creamos la vista principal que contendrá nuestras vistas hijas*/
 	var GalleryView = Backbone.View.extend({
@@ -16,6 +16,10 @@ define(['backbone', 'underscore', 'views/modules/childrens/GalleryRow'],
 
 			/*_.bindAll(this) hace que las funciones apunten siempre al "this" del objeto principal*/
 			_.bindAll(this);
+
+			/*Asignamos a la variable "imagesCollection" una instancia de nuestra Colección*/
+			Ins.Models.Collections.imagesCollection = new Images();
+			
 			/*Desde la vista escuchamos cuando suceda el evento "add" en la colección y lanzamos la función addOne*/
 			this.listenTo(Ins.Models.Collections.imagesCollection, 'add', this.addOne);
 			/*Desde la vista escuchamos cuando suceda el evento "remove" en la colección y lanzamos la función removeOne*/

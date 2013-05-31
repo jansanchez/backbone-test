@@ -1,6 +1,6 @@
 
-define(['backbone', 'underscore', 'js/models/collections/Images.js', 'views/modules/childrens/GalleryRow'], 
-	function(Backbone, _, Images, galleryRow) {
+define(['backbone', 'underscore', 'views/modules/childrens/GalleryRow',  'js/models/collections/Images.js'], 
+	function(Backbone, _, galleryRow, Images) {
 
 	/*Creamos la vista principal que contendrá nuestras vistas hijas*/
 	var GalleryView = Backbone.View.extend({
